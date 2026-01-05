@@ -1,0 +1,642 @@
+{
+	"info": {
+		"_postman_id": "04aabc07-640f-4f82-94ab-53af6df3ae70",
+		"name": "Wishlist Service API",
+		"description": "Complete API collection for the Wishlist Service. This collection includes all authentication, product, and wishlist endpoints.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19972960",
+		"_collection_link": "https://orbit-deplete-iq.postman.co/workspace/My-Workspace~47472c6b-4264-4ac7-8282-532375074efa/collection/19972960-04aabc07-640f-4f82-94ab-53af6df3ae70?action=share&source=collection_link&creator=19972960"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"item": [
+				{
+					"name": "Health Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has status field\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('status');",
+									"    pm.expect(jsonData.status).to.eql('healthy');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/health",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"health"
+							]
+						},
+						"description": "Check if the API is running and healthy"
+					},
+					"response": []
+				}
+			],
+			"description": "Health check endpoint to verify API status"
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response has user and token\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('data');",
+									"    pm.expect(jsonData.data).to.have.property('user');",
+									"    pm.expect(jsonData.data).to.have.property('token');",
+									"    ",
+									"    // Store token for authenticated requests",
+									"    if (jsonData.data.token) {",
+									"        pm.collectionVariables.set('authToken', jsonData.data.token);",
+									"        pm.collectionVariables.set('userId', jsonData.data.user.public_id);",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"password\": \"password123\",\n    \"password_confirmation\": \"password123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "Register a new user account. Returns user data and authentication token."
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has user and token\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('data');",
+									"    pm.expect(jsonData.data).to.have.property('user');",
+									"    pm.expect(jsonData.data).to.have.property('token');",
+									"    ",
+									"    // Store token for authenticated requests",
+									"    if (jsonData.data.token) {",
+									"        pm.collectionVariables.set('authToken', jsonData.data.token);",
+									"        pm.collectionVariables.set('userId', jsonData.data.user.public_id);",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"john.doe@example.com\",\n    \"password\": \"password123\",\n    \"remember\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Login with email and password. Returns user data and authentication token. Set 'remember' to true for longer token expiration."
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Ensure token is set",
+									"if (!pm.collectionVariables.get('authToken')) {",
+									"    throw new Error('Please login first to get an authentication token');",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Logout successful\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('success');",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"});",
+									"",
+									"// Clear token after logout",
+									"pm.collectionVariables.unset('auth_token');"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/auth/logout",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						},
+						"description": "Logout the authenticated user. This will invalidate the current authentication token."
+					},
+					"response": []
+				}
+			],
+			"description": "Authentication endpoints for user registration, login, and logout"
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Get All Products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has products data\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('data');",
+									"    pm.expect(jsonData.data).to.have.property('data');",
+									"    pm.expect(jsonData.data).to.have.property('current_page');",
+									"    pm.expect(jsonData.data).to.have.property('per_page');",
+									"    pm.expect(jsonData.data).to.have.property('total');",
+									"});",
+									"",
+									"pm.test(\"Products have required fields\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data.data.length > 0) {",
+									"        var product = jsonData.data.data[0];",
+									"        pm.expect(product).to.have.property('public_id');",
+									"        pm.expect(product).to.have.property('name');",
+									"        pm.expect(product).to.have.property('price');",
+									"        pm.expect(product).to.have.property('description');",
+									"        ",
+									"        // Store first product ID for wishlist operations",
+									"        pm.collectionVariables.set('productId', product.public_id);",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/products?per_page=15&page=1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "per_page",
+									"value": "15",
+									"description": "Number of items per page (default: 15)"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number (default: 1)"
+								}
+							]
+						},
+						"description": "Retrieve all available products with pagination. This is a public endpoint and does not require authentication."
+					},
+					"response": []
+				}
+			],
+			"description": "Product endpoints for retrieving available products"
+		},
+		{
+			"name": "Wishlist",
+			"item": [
+				{
+					"name": "Add Product to Wishlist",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Ensure token is set",
+									"if (!pm.collectionVariables.get('authToken')) {",
+									"    throw new Error('Please login first to get an authentication token');",
+									"}",
+									"",
+									"// Use sample product ID if available, otherwise prompt",
+									"if (!pm.collectionVariables.get('productId')) {",
+									"    console.log('Note: Set productId variable or use a valid product public_id');",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Product added successfully\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('success');",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"    pm.expect(jsonData.data).to.have.property('id');",
+									"    pm.expect(jsonData.data).to.have.property('user_id');",
+									"    pm.expect(jsonData.data).to.have.property('product_id');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product_id\": \"{{productId}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/wishlist",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"wishlist"
+							]
+						},
+						"description": "Add a product to the authenticated user's wishlist. The product_id should be the product's public_id (ULID format)."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Wishlist",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Ensure token is set",
+									"if (!pm.collectionVariables.get('authToken')) {",
+									"    throw new Error('Please login first to get an authentication token');",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has wishlist data\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('data');",
+									"    pm.expect(jsonData.data).to.have.property('data');",
+									"    pm.expect(jsonData.data).to.have.property('current_page');",
+									"    pm.expect(jsonData.data).to.have.property('per_page');",
+									"    pm.expect(jsonData.data).to.have.property('total');",
+									"});",
+									"",
+									"pm.test(\"Wishlist items are products\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data.data.length > 0) {",
+									"        var product = jsonData.data.data[0];",
+									"        pm.expect(product).to.have.property('public_id');",
+									"        pm.expect(product).to.have.property('name');",
+									"        pm.expect(product).to.have.property('price');",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/wishlist?per_page=15&page=1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"wishlist"
+							],
+							"query": [
+								{
+									"key": "per_page",
+									"value": "15",
+									"description": "Number of items per page (default: 15)"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number (default: 1)"
+								}
+							]
+						},
+						"description": "Retrieve the authenticated user's wishlist with pagination. Returns products ordered by most recently added first."
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Product from Wishlist",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Ensure token is set",
+									"if (!pm.collectionVariables.get('authToken')) {",
+									"    throw new Error('Please login first to get an authentication token');",
+									"}",
+									"",
+									"// Use sample product ID if available",
+									"if (!pm.collectionVariables.get('sample_product_id')) {",
+									"    console.log('Note: Set sample_product_id variable or use a valid product public_id');",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Product removed successfully\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('success');",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/wishlist/{{productId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"wishlist",
+								"{{productId}}"
+							]
+						},
+						"description": "Remove a product from the authenticated user's wishlist. The product_id in the URL should be the product's public_id (ULID format)."
+					},
+					"response": []
+				}
+			],
+			"description": "Wishlist endpoints for managing user wishlists. All endpoints require authentication."
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{authToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8000",
+			"description": {
+				"content": "Base URL for the API. Change this to your server URL (e.g., http://localhost:8000 for local development)",
+				"type": "text/plain"
+			}
+		},
+		{
+			"key": "authToken",
+			"value": "",
+			"description": {
+				"content": "Authentication token (Bearer token). Automatically set after login/register.",
+				"type": "text/plain"
+			}
+		},
+		{
+			"key": "userId",
+			"value": "",
+			"description": {
+				"content": "Current user's public ID. Automatically set after login/register.",
+				"type": "text/plain"
+			}
+		},
+		{
+			"key": "productId",
+			"value": "",
+			"description": {
+				"content": "Sample product public_id for testing wishlist operations. Automatically set when fetching products.",
+				"type": "text/plain"
+			}
+		}
+	]
+}

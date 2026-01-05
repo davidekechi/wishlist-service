@@ -1,10 +1,11 @@
 {
 	"info": {
-		"_postman_id": "wishlist-service-api-v1",
+		"_postman_id": "04aabc07-640f-4f82-94ab-53af6df3ae70",
 		"name": "Wishlist Service API",
 		"description": "Complete API collection for the Wishlist Service. This collection includes all authentication, product, and wishlist endpoints.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "wishlist-service"
+		"_exporter_id": "19972960",
+		"_collection_link": "https://orbit-deplete-iq.postman.co/workspace/My-Workspace~47472c6b-4264-4ac7-8282-532375074efa/collection/19972960-04aabc07-640f-4f82-94ab-53af6df3ae70?action=share&source=collection_link&creator=19972960"
 	},
 	"item": [
 		{
@@ -27,7 +28,9 @@
 									"    pm.expect(jsonData.status).to.eql('healthy');",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
@@ -35,13 +38,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/api/v1/health",
+							"raw": "{{baseUrl}}/health",
 							"host": [
-								"{{base_url}}"
+								"{{baseUrl}}"
 							],
 							"path": [
-								"api",
-								"v1",
 								"health"
 							]
 						},
@@ -74,12 +75,14 @@
 									"    ",
 									"    // Store token for authenticated requests",
 									"    if (jsonData.data.token) {",
-									"        pm.collectionVariables.set('auth_token', jsonData.data.token);",
-									"        pm.collectionVariables.set('user_public_id', jsonData.data.user.public_id);",
+									"        pm.collectionVariables.set('authToken', jsonData.data.token);",
+									"        pm.collectionVariables.set('userId', jsonData.data.user.public_id);",
 									"    }",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
@@ -107,13 +110,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/api/v1/auth/register",
+							"raw": "{{baseUrl}}/auth/register",
 							"host": [
-								"{{base_url}}"
+								"{{baseUrl}}"
 							],
 							"path": [
-								"api",
-								"v1",
 								"auth",
 								"register"
 							]
@@ -141,12 +142,14 @@
 									"    ",
 									"    // Store token for authenticated requests",
 									"    if (jsonData.data.token) {",
-									"        pm.collectionVariables.set('auth_token', jsonData.data.token);",
-									"        pm.collectionVariables.set('user_public_id', jsonData.data.user.public_id);",
+									"        pm.collectionVariables.set('authToken', jsonData.data.token);",
+									"        pm.collectionVariables.set('userId', jsonData.data.user.public_id);",
 									"    }",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
@@ -174,13 +177,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/api/v1/auth/login",
+							"raw": "{{baseUrl}}/auth/login",
 							"host": [
-								"{{base_url}}"
+								"{{baseUrl}}"
 							],
 							"path": [
-								"api",
-								"v1",
 								"auth",
 								"login"
 							]
@@ -201,7 +202,9 @@
 									"    throw new Error('Please login first to get an authentication token');",
 									"}"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						},
 						{
@@ -221,7 +224,9 @@
 									"// Clear token after logout",
 									"pm.collectionVariables.unset('auth_token');"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
@@ -245,13 +250,11 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/api/v1/auth/logout",
+							"raw": "{{baseUrl}}/auth/logout",
 							"host": [
-								"{{base_url}}"
+								"{{baseUrl}}"
 							],
 							"path": [
-								"api",
-								"v1",
 								"auth",
 								"logout"
 							]
@@ -296,11 +299,13 @@
 									"        pm.expect(product).to.have.property('description');",
 									"        ",
 									"        // Store first product ID for wishlist operations",
-									"        pm.collectionVariables.set('sample_product_id', product.public_id);",
+									"        pm.collectionVariables.set('productId', product.public_id);",
 									"    }",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
@@ -314,13 +319,11 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/api/v1/products?per_page=15&page=1",
+							"raw": "{{baseUrl}}/products?per_page=15&page=1",
 							"host": [
-								"{{base_url}}"
+								"{{baseUrl}}"
 							],
 							"path": [
-								"api",
-								"v1",
 								"products"
 							],
 							"query": [
@@ -354,16 +357,18 @@
 							"script": {
 								"exec": [
 									"// Ensure token is set",
-									"if (!pm.collectionVariables.get('auth_token')) {",
+									"if (!pm.collectionVariables.get('authToken')) {",
 									"    throw new Error('Please login first to get an authentication token');",
 									"}",
 									"",
 									"// Use sample product ID if available, otherwise prompt",
-									"if (!pm.collectionVariables.get('sample_product_id')) {",
-									"    console.log('Note: Set sample_product_id variable or use a valid product public_id');",
+									"if (!pm.collectionVariables.get('productId')) {",
+									"    console.log('Note: Set productId variable or use a valid product public_id');",
 									"}"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						},
 						{
@@ -383,21 +388,13 @@
 									"    pm.expect(jsonData.data).to.have.property('product_id');",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{auth_token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [
 							{
@@ -413,7 +410,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"product_id\": \"{{sample_product_id}}\"\n}",
+							"raw": "{\n    \"product_id\": \"{{productId}}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -421,13 +418,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/api/v1/wishlist",
+							"raw": "{{baseUrl}}/wishlist",
 							"host": [
-								"{{base_url}}"
+								"{{baseUrl}}"
 							],
 							"path": [
-								"api",
-								"v1",
 								"wishlist"
 							]
 						},
@@ -443,11 +438,13 @@
 							"script": {
 								"exec": [
 									"// Ensure token is set",
-									"if (!pm.collectionVariables.get('auth_token')) {",
+									"if (!pm.collectionVariables.get('authToken')) {",
 									"    throw new Error('Please login first to get an authentication token');",
 									"}"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						},
 						{
@@ -477,21 +474,13 @@
 									"    }",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{auth_token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [
 							{
@@ -501,13 +490,11 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/api/v1/wishlist?per_page=15&page=1",
+							"raw": "{{baseUrl}}/wishlist?per_page=15&page=1",
 							"host": [
-								"{{base_url}}"
+								"{{baseUrl}}"
 							],
 							"path": [
-								"api",
-								"v1",
 								"wishlist"
 							],
 							"query": [
@@ -604,11 +591,22 @@
 			"description": "Wishlist endpoints for managing user wishlists. All endpoints require authentication."
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{authToken}}",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
 			"script": {
 				"type": "text/javascript",
+				"requests": {},
 				"exec": [
 					""
 				]
@@ -618,6 +616,7 @@
 			"listen": "test",
 			"script": {
 				"type": "text/javascript",
+				"requests": {},
 				"exec": [
 					""
 				]
@@ -626,29 +625,36 @@
 	],
 	"variable": [
 		{
-			"key": "base_url",
+			"key": "baseUrl",
 			"value": "http://localhost:8000",
-			"type": "string",
-			"description": "Base URL for the API. Change this to your server URL (e.g., http://localhost:8000 for local development)"
+			"description": {
+				"content": "Base URL for the API. Change this to your server URL (e.g., http://localhost:8000 for local development)",
+				"type": "text/plain"
+			}
 		},
 		{
-			"key": "auth_token",
+			"key": "authToken",
 			"value": "",
-			"type": "string",
-			"description": "Authentication token (Bearer token). Automatically set after login/register."
+			"description": {
+				"content": "Authentication token (Bearer token). Automatically set after login/register.",
+				"type": "text/plain"
+			}
 		},
 		{
-			"key": "user_public_id",
+			"key": "userId",
 			"value": "",
-			"type": "string",
-			"description": "Current user's public ID. Automatically set after login/register."
+			"description": {
+				"content": "Current user's public ID. Automatically set after login/register.",
+				"type": "text/plain"
+			}
 		},
 		{
-			"key": "sample_product_id",
+			"key": "productId",
 			"value": "",
-			"type": "string",
-			"description": "Sample product public_id for testing wishlist operations. Automatically set when fetching products."
+			"description": {
+				"content": "Sample product public_id for testing wishlist operations. Automatically set when fetching products.",
+				"type": "text/plain"
+			}
 		}
 	]
 }
-

@@ -198,7 +198,7 @@
 							"script": {
 								"exec": [
 									"// Ensure token is set",
-									"if (!pm.collectionVariables.get('auth_token')) {",
+									"if (!pm.collectionVariables.get('authToken')) {",
 									"    throw new Error('Please login first to get an authentication token');",
 									"}"
 								],
@@ -231,16 +231,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{auth_token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [
 							{
@@ -522,7 +512,7 @@
 							"script": {
 								"exec": [
 									"// Ensure token is set",
-									"if (!pm.collectionVariables.get('auth_token')) {",
+									"if (!pm.collectionVariables.get('authToken')) {",
 									"    throw new Error('Please login first to get an authentication token');",
 									"}",
 									"",
@@ -531,7 +521,9 @@
 									"    console.log('Note: Set sample_product_id variable or use a valid product public_id');",
 									"}"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						},
 						{
@@ -548,21 +540,13 @@
 									"    pm.expect(jsonData.success).to.be.true;",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{auth_token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "DELETE",
 						"header": [
 							{
@@ -572,15 +556,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/api/v1/wishlist/{{sample_product_id}}",
+							"raw": "{{baseUrl}}/wishlist/{{productId}}",
 							"host": [
-								"{{base_url}}"
+								"{{baseUrl}}"
 							],
 							"path": [
-								"api",
-								"v1",
 								"wishlist",
-								"{{sample_product_id}}"
+								"{{productId}}"
 							]
 						},
 						"description": "Remove a product from the authenticated user's wishlist. The product_id in the URL should be the product's public_id (ULID format)."

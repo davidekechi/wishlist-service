@@ -1,0 +1,32 @@
+Laravel E-Commerce Feature – “Wishlist” Functionality
+
+
+Overview:
+Develop a Back-End Laravel application that provides a “Wishlist” feature for an e-commerce environment. The application should allow users to sign up, log in, and then add, view, and remove products from their wishlists.
+Objectives:
+Demonstrate command of Laravel’s framework fundamentals (routing, controllers, middleware, and ORM).
+Build a simple, authentication system.
+Create a RESTful API for wishlist functionality.
+Implement validations, error handling, and unit tests.
+Requirements:
+Authentication:
+Provide user registration and login endpoints (token-based or session-based).
+Product & Wishlist Models:
+Create simple models and migrations for products and wishlists.
+For instance, the product model can be minimal (with fields like name, price, and description).
+API Endpoints:
+Endpoint for retrieving available products.
+Endpoints for:
+Adding a product to a user’s wishlist.
+Retrieving the current user’s wishlist.
+Removing a product from the wishlist.
+Testing:
+Write unit or feature tests to validate the business logic and endpoints.
+Deliverables:
+Source code hosted in a Git repository.
+A README file containing setup instructions, API documentation, and testing instructions.
+Database migration files.
+Submission Guidelines:
+Provide a public Git repository URL.
+Include clear instructions to run the application locally (e.g., dependencies, migration commands, etc.).
+

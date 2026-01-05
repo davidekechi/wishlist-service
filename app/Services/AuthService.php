@@ -36,14 +36,16 @@ class AuthService
         }
 
         // Revoke old tokens if needed
-        if (!$data->remember) {
+        $remember = $data->remember ?? false;
+        if (!$remember) {
             $user->tokens()->delete();
         }
 
         // Create token with appropriate abilities
         $token = $user->createToken(
             name: 'auth_token',
-            expiresAt: $data->remember ? now()->addDays(30) : now()->addDay()
+            abilities: ['*'],
+            expiresAt: $remember ? now()->addDays(30) : now()->addDay()
         );
 
         return [

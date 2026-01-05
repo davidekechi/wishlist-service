@@ -35,6 +35,9 @@ RUN docker-php-ext-install -j$(nproc) \
     zip \
     intl
 
+# Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
 # Create sail user
 RUN useradd -G www-data,root -u $uid -d /home/$user $user \
     && mkdir -p /home/$user/.composer \

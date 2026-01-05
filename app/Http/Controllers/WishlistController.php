@@ -26,9 +26,7 @@ class WishlistController extends Controller
 
             return $this->success(
                 data: [
-                    'id'         => $wishlistItem->id,
-                    'user_id'    => $wishlistItem->user_id,
-                    'product_id' => $wishlistItem->product_id
+                    'product' => new ProductResource($wishlistItem->product)
                 ],
                 message: 'Product added to wishlist successfully',
                 statusCode: 201
@@ -60,7 +58,7 @@ class WishlistController extends Controller
 
             // Structure the response to match test expectations
             $data = [
-                'data'         => $items,
+                'products'     => $items,
                 'current_page' => $products->currentPage(),
                 'per_page'     => $products->perPage(),
                 'total'        => $products->total(),

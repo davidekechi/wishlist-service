@@ -19,14 +19,18 @@ test('authenticated user can add product to wishlist', function () {
             'success',
             'message',
             'data' => [
-                'id',
-                'user_id',
-                'product_id',
+                'product' => [
+                    'public_id',
+                    'name',
+                    'price',
+                    'description',
+                    'created_at',
+                ],
             ],
         ]);
 
     expect($response->json('success'))->toBeTrue();
-    expect($response->json('data.product_id'))->toBe($product->id);
+    expect($response->json('data.product.public_id'))->toBe($product->public_id);
     $this->assertDatabaseHas('wishlist_items', [
         'user_id'    => $user->id,
         'product_id' => $product->id,
@@ -107,7 +111,7 @@ test('authenticated user can retrieve their wishlist', function () {
             'success',
             'message',
             'data' => [
-                'data' => [
+                'products' => [
                     '*' => [
                         'public_id',
                         'name',
@@ -122,7 +126,7 @@ test('authenticated user can retrieve their wishlist', function () {
             ],
         ]);
 
-    expect($response->json('data.data'))->toHaveCount(10);
+    expect($response->json('data.products'))->toHaveCount(10);
     expect($response->json('data.total'))->toBe(10);
     expect($response->json('success'))->toBeTrue();
 });
@@ -140,8 +144,8 @@ test('wishlist returns empty array when user has no products', function () {
         ->getJson('/api/v1/wishlist');
 
     $response->assertStatus(200);
-    expect($response->json('data.data'))->toBeArray();
-    expect($response->json('data.data'))->toHaveCount(0);
+    expect($response->json('data.products'))->toBeArray();
+    expect($response->json('data.products'))->toHaveCount(0);
     expect($response->json('data.total'))->toBe(0);
 });
 
@@ -162,8 +166,8 @@ test('wishlist products are ordered by created_at desc', function () {
         ->getJson('/api/v1/wishlist');
 
     $response->assertStatus(200);
-    expect($response->json('data.data.0.name'))->toBe('Product 3');
-    expect($response->json('data.data.2.name'))->toBe('Product 1');
+    expect($response->json('data.products.0.name'))->toBe('Product 3');
+    expect($response->json('data.products.2.name'))->toBe('Product 1');
 });
 
 test('wishlist supports pagination', function () {
@@ -178,7 +182,7 @@ test('wishlist supports pagination', function () {
         ->getJson('/api/v1/wishlist?per_page=10');
 
     $response->assertStatus(200);
-    expect($response->json('data.data'))->toHaveCount(10);
+    expect($response->json('data.products'))->toHaveCount(10);
     expect($response->json('data.total'))->toBe(25);
     expect($response->json('data.per_page'))->toBe(10);
 });

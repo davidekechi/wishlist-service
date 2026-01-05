@@ -49,8 +49,5 @@ COPY --chown=$user:$user . .
 
 USER $user
 
-# Remove vendor folder if it exists:
-RUN if [ -d "vendor" ]; then rm -rf vendor; fi
-
 EXPOSE 9000
 CMD ["php-fpm"]

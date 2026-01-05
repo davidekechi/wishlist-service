@@ -43,48 +43,7 @@ git clone https://github.com/davidekechi/wishlist-service
 cd wishlist-service
 ```
 
-### 2. Build Docker Containers
-
-Build the Docker containers using Docker Compose:
-
-```bash
-docker-compose build
-```
-
-This will build the following services:
-- **app**: PHP 8.2-FPM application container
-- **nginx**: Web server
-- **postgres**: PostgreSQL 15 database
-
-### 3. Start Docker Containers
-
-Start all services:
-
-```bash
-docker-compose up -d
-```
-
-This will start:
-- Application server on `http://localhost:8000`
-- PostgreSQL on port `5432`
-
-### 4. Access the Application Container
-
-Bash into the application container:
-
-```bash
-docker exec -it wishlist-service-app bash
-```
-
-### 5. Install Dependencies
-
-Inside the container, install Composer dependencies:
-
-```bash
-composer install
-```
-
-### 6. Environment Configuration
+### 2. Environment Configuration
 
 The project includes `.env.example` and `.env.testing` files. Create an `.env` file:
 
@@ -101,6 +60,47 @@ DB_PORT=5432
 DB_DATABASE=wishlist_service
 DB_USERNAME=postgres
 DB_PASSWORD=postgres
+```
+
+### 3. Build Docker Containers
+
+Build the Docker containers using Docker Compose:
+
+```bash
+docker-compose build
+```
+
+This will build the following services:
+- **app**: PHP 8.2-FPM application container
+- **nginx**: Web server
+- **postgres**: PostgreSQL 15 database
+
+### 4. Start Docker Containers
+
+Start all services:
+
+```bash
+docker-compose up -d
+```
+
+This will start:
+- Application server on `http://localhost:8000`
+- PostgreSQL on port `5432`
+
+### 5. Access the Application Container
+
+Bash into the application container:
+
+```bash
+docker exec -it wishlist-service-app bash
+```
+
+### 6. Install Dependencies
+
+Inside the container, install Composer dependencies:
+
+```bash
+composer install
 ```
 
 ### 7. Generate Application Key

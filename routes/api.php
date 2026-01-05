@@ -5,6 +5,8 @@ declare(strict_types=1);
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,7 +41,13 @@ Route::prefix('v1')->group(function () {
         });
     });
 
-    // Route::middleware('throttle:short')->prefix('auth')->group(function () {
-    //     Route::post('login', [LoginController::class, 'login']);
-    // });
+    // Products endpoint (public)
+    Route::get('products', [ProductController::class, 'index'])->name('products.index');
+
+    // Wishlist endpoints (authenticated)
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('wishlist', [WishlistController::class, 'store'])->name('wishlist.store');
+        Route::get('wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+        Route::delete('wishlist/{productPublicId}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
+    });
 });

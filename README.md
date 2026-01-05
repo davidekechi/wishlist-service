@@ -43,7 +43,26 @@ git clone https://github.com/davidekechi/wishlist-service
 cd wishlist-service
 ```
 
-### 2. Build Docker Containers
+### 2. Environment Configuration
+
+The project includes `.env.example` and `.env.testing` files. Create an `.env` file:
+
+```bash
+cp .env.example .env
+```
+
+Update the database configuration in `.env` if needed (defaults should work with Docker Compose):
+
+```env
+DB_CONNECTION=pgsql
+DB_HOST=postgres
+DB_PORT=5432
+DB_DATABASE=wishlist_service
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
+```
+
+### 3. Build Docker Containers
 
 Build the Docker containers using Docker Compose:
 
@@ -56,7 +75,7 @@ This will build the following services:
 - **nginx**: Web server
 - **postgres**: PostgreSQL 15 database
 
-### 3. Start Docker Containers
+### 4. Start Docker Containers
 
 Start all services:
 
@@ -68,7 +87,7 @@ This will start:
 - Application server on `http://localhost:8000`
 - PostgreSQL on port `5432`
 
-### 4. Access the Application Container
+### 5. Access the Application Container
 
 Bash into the application container:
 
@@ -76,7 +95,7 @@ Bash into the application container:
 docker exec -it wishlist-service-app bash
 ```
 
-### 5. Install Dependencies
+### 6. Install Dependencies
 
 Inside the container, install Composer dependencies:
 
@@ -94,25 +113,6 @@ rm -rf vendor
 docker exec -it wishlist-service-app bash
 
 composer install
-```
-
-### 6. Environment Configuration
-
-The project includes `.env.example` and `.env.testing` files. Create an `.env` file:
-
-```bash
-cp .env.example .env
-```
-
-Update the database configuration in `.env` if needed (defaults should work with Docker Compose):
-
-```env
-DB_CONNECTION=pgsql
-DB_HOST=postgres
-DB_PORT=5432
-DB_DATABASE=wishlist_service
-DB_USERNAME=postgres
-DB_PASSWORD=postgres
 ```
 
 ### 7. Generate Application Key
@@ -395,7 +395,7 @@ docker exec -it wishlist-service-app chown -R sail:sail /var/www
 
 ### Vendor/Autoload Issues
 
-If you encounter an issue with the vendor directory or anything like an autoload problem, delete the vendor directory fro outside the container and then run:
+If you encounter an issue with the vendor directory or anything like an autoload problem, delete the vendor directory from outside the container and then run:
 
 ```bash
 docker exec -it wishlist-service-app rm -rf vendor composer.lock

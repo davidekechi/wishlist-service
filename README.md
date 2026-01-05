@@ -84,6 +84,18 @@ Inside the container, install Composer dependencies:
 composer install
 ```
 
+If you encounter an issue with the vendor directory or anything like an autoload problem, delete the vendor directory from outside the container, bash into the container and install composer again:
+
+```bash
+exit
+
+rm -rf vendor
+
+docker exec -it wishlist-service-app bash
+
+composer install
+```
+
 ### 6. Environment Configuration
 
 The project includes `.env.example` and `.env.testing` files. Create an `.env` file:

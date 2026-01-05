@@ -1,9 +1,0 @@
-Notes:
-* Keep controllers light and move all business logic to services
-* Use db transactions for all writes to db (create, update, delete)
-* Watch out for n+1 query problems
-* Use try catch block for all controllers so that error and success responses can be consistent
-* Use the api response trait format pasted below to create an Api response trait and format all controller response to use it
-* use repositories to connect to db. do not call models like this "User::where('id', $id)->get()" nor like this "\DB::table('users')->where('id', $id)->get()". Instead, use a repository - "$this->userRepository->getUser($id);".
-* In the repository, access db this way "$this->model->where('id', $id)->get();".
-* Make sure all code are type hinted properly and all code pass php-stan 6 checks.

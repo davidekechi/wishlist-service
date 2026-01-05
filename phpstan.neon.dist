@@ -24,3 +24,9 @@ parameters:
     # Ignore Pest internal class warnings and custom expectations (false positives)
     ignoreErrors:
         - '#Call to method .* of internal class Pest\\(Mixins|PendingCalls)\\.* from outside its root namespace Pest\.#'
+        - '#Access to an undefined property PHPUnit\\Framework\\TestCase::\$userRepository\.#'
+        - '#Access to an undefined property PHPUnit\\Framework\\TestCase::\$authService\.#'
+        - '#Call to an undefined method PHPUnit\\Framework\\TestCase::withHeader\(\)\.#'
+        - '#Call to an undefined method PHPUnit\\Framework\\TestCase::postJson\(\)\.#'
+        - '#Call to an undefined method PHPUnit\\Framework\\TestCase::assertDatabaseMissing\(\)\.#'
+        - '#Call to an undefined method PHPUnit\\Framework\\TestCase::assertDatabaseHas\(\)\.#'

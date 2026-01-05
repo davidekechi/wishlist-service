@@ -22,6 +22,11 @@ uses(TestCase::class, RefreshDatabase::class)->in('Feature');
 // Unit tests use the base TestCase
 uses(TestCase::class)->in('Unit');
 
+// Unit tests that interact with database need RefreshDatabase
+uses(RefreshDatabase::class)->in('Unit/Http/Resources');
+uses(RefreshDatabase::class)->in('Unit/Repositories');
+uses(RefreshDatabase::class)->in('Unit/Http/Requests');
+
 /*
 |--------------------------------------------------------------------------
 | Expectations

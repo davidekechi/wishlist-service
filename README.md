@@ -103,6 +103,18 @@ Inside the container, install Composer dependencies:
 composer install
 ```
 
+If you encounter an issue with the vendor directory or anything like an autoload problem, delete the vendor directory from outside the container, bash into the container and install composer again:
+
+```bash
+exit
+
+rm -rf vendor
+
+docker exec -it wishlist-service-app bash
+
+composer install
+```
+
 ### 7. Generate Application Key
 
 Generate the application encryption key:
@@ -383,7 +395,7 @@ docker exec -it wishlist-service-app chown -R sail:sail /var/www
 
 ### Vendor/Autoload Issues
 
-If you encounter an issue with the vendor directory or anything like an autoload problem, delete the vendor directory fro outside the container and then run:
+If you encounter an issue with the vendor directory or anything like an autoload problem, delete the vendor directory from outside the container and then run:
 
 ```bash
 docker exec -it wishlist-service-app rm -rf vendor composer.lock

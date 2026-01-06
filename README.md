@@ -148,7 +148,7 @@ This will seed:
 Check the health endpoint:
 
 ```bash
-curl http://localhost:8000/api/v1/health
+http://localhost:8000/api/v1/health
 ```
 
 You should receive a JSON response indicating the API is healthy.

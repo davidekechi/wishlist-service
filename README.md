@@ -230,7 +230,11 @@ The project uses Pest (built on PHPUnit) for testing. The test database configur
 docker exec -it wishlist-service-postgres psql -U postgres -c "CREATE DATABASE wishlist_service_test;"
 ```
 
-2. Run migrations and seed test data:
+2. Run migrations and seed test data from inside of the application container:
+
+```bash
+docker exec -it wishlist-service-app bash
+```
 
 ```bash
 php artisan migrate:fresh --env=testing
